@@ -32,4 +32,4 @@ Fusion 360 made the 3D modeling process smooth and efficient, helping us move fr
 
 ## Screenshot
 
-![Fusion 360 Screenshot](https://drive.google.com/file/d/1H8h10hBRnlHUQkVAoh68KumcylFxlapk/view?usp=drive_link)
+![Fusion 360 Screenshot](https://drive.google.com/uc?export=view&id=1H8h10hBRnlHUQkVAoh68KumcylFxlapk)
