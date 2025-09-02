@@ -1,4 +1,4 @@
-Red Torque is a fully autonomous, self-driven robot designed for the WRO Future Engineers 2025 challenge. The system is engineered to perceive and interact intelligently with its environment using a lightweight AI-based vision module and real-time decision-making.
+Red Torque RT-X7 is a fully autonomous, self-driven robot designed for the WRO Future Engineers 2025 challenge. The system is engineered to perceive and interact intelligently with its environment using a lightweight AI-based vision module and real-time decision-making.
 
 At the core of the robot is a camera-based object classification system powered by a TensorFlow Lite model trained with Teachable Machine. The model enables the robot to distinguish between red and green cubes — symbolic elements of environmental cues or objectives in the WRO challenge field. By identifying and responding to these visual markers, the robot adjusts its path, behavior, or task sequence accordingly.
 
