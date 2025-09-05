@@ -38,4 +38,5 @@ It reduced hardware clutter, supported remote debugging, and allowed us to seaml
 
 ## Screenshot
 
-![RealVNC Screenshot](PUT-YOUR-DRIVE-EXPORT-LINK-HERE)
+![RealVNC Screenshot](https://drive.google.com/uc?export=view&id=1xgYLHKLy6JmClIpf9iQawzV3YiZvoFFQ
+)
