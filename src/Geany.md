@@ -39,4 +39,5 @@ Its lightweight design and simplicity made coding efficient, while still offerin
 
 ## Screenshot
 
-![Geany Screenshot](https://drive.google.com/file/d/1DD9fJXF6GvOf1sy2oS5TEDDDuCA0bCnI/view?usp=sharing)
+![Geany Screenshot](https://drive.google.com/uc?export=view&id=1DD9fJXF6GvOf1sy2oS5TEDDDuCA0bCnI
+)
