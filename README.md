@@ -1,71 +1,104 @@
-# RT-X7: Autonomous RoboCar for WRO 2025 Future Engineering Challenge 
+---
 
-RT-X7 is a fully autonomous RoboCar developed by Team Red Torque for the 2025 World Robot Olympiad (WRO) Future Engineering Challenge. This project showcases a robust autonomous system capable of line following, real-time cube recognition, obstacle avoidance, and precise parallel parking under competition conditions.
+### WRO Season 2025 Future Engineering Challenge — Self-Driving Cars
+
+Our team, Red Torque, proudly presents **RT-X7**, an autonomous RoboCar developed for the 2025 World Robot Olympiad (WRO) Future Engineering Challenge. This international competition requires teams to design, build, and program fully autonomous vehicles capable of line following, cube recognition, obstacle avoidance, and precise parking — all performed autonomously under competition conditions.
 
 ---
 
-###  Team Members
+### Team Members and Roles
 
-* **Adithya Sree Sivaramanand:** Hardware Design and Motor Control.
-* **Albin Binu K:** Software Design & GitHub Documentation.
-* **Nasnida AN:** Testing & Documentation.
 * **Coach:** Akhila R Gomez
 * **Assistant Coach:** Yashin M Afsal
+* **Team Members:**
+    * **Adithya Sree Sivaramanand:** Hardware Design and Motor Control. A passionate BCA student with a love for AI, robotics, and electronics. I enjoy building smart solutions, exploring new tech, and always carry a screwdriver.
+    * **Albin Binu K:** Software Design & GitHub Documentation. I'm currently pursuing my BCA and always looking for ways to apply what I learn in real-world projects. I enjoy taking initiative and learning beyond the classroom and am interested in exploring startup plans rather than sticking to a company job for the long term.
+    * **Nasnida AN:** Testing & Documentation. I am currently pursuing a BCA in my 5th semester, with a strong interest in software development and emerging technologies. I enjoy exploring creative tech-based solutions to everyday problems.
+
+Together, we combined hardware engineering, software development, and iterative testing to deliver RT-X7 as a robust competition entry.
 
 ---
 
-###  Technical Design
+### Technical Solution Design
 
-Our solution is built on a modular architecture that separates high-level processing from real-time control, ensuring reliability and performance.
+RT-X7 was engineered with an emphasis on modularity, stability, and real-time performance. The platform integrates mechanical design, embedded control, and computer vision into a cohesive system designed for repeatable, competition-grade performance.
 
-* **Dual-Processor Architecture:** A **Raspberry Pi 5 (8 GB)** handles high-level vision, decision logic, and AI. A dedicated **ESP32** manages low-latency motor control and ultrasonic sensor processing.
-* **Drive & Steering:** Four DC gear motors are managed by an **L298N motor driver** for locomotion, with a separate motor for steering.
-* **Power & Regulation:** A competition-grade battery powers the motors, while buck converters provide stable 5V and 3.3V rails for the Pi and sensors.
-* **Cooling:** Active cooling (fans/heatsinks) ensures the Raspberry Pi remains stable during long, continuous processing runs.
+**Key design choices:**
 
----
+* **Computer:** A **Raspberry Pi 5 (8 GB)** acts as the main high-level controller responsible for vision, decision logic, and AI. A dedicated **ESP32** handles real-time motor control and ultrasonic sensor processing to keep low-latency tasks separate from vision.
+* **Drive & Steering:** Four **DC gear motors** provide locomotion and a dedicated steering motor controls direction. Motor power and direction are managed through an **L298N motor driver**.
+* **Chassis:** A compact, stable **~30 cm chassis** provides a solid foundation.
+* **Power & Regulation:** A main battery pack (competition-grade power) powers the motors; buck converters provide stable 5 V and 3.3 V rails for the Raspberry Pi and sensors.
+* **Cooling & Reliability:** Cooling measures (fans/heatsinks) were used to keep the Raspberry Pi stable under continuous processing loads.
 
-###  Perception & Sensors
-
-RT-X7 navigates using a combination of vision and ultrasonic sensing.
-
-* **Camera:** A high-resolution **USB webcam** provides a wide field of view for robust line and cube detection. The adjustable mount allows for quick tuning.
-* **Ultrasonic Sensors:** Mounted on the front and sides, these sensors are used for obstacle avoidance and precise parking. A 1-second startup calibration reduces noise and improves detection reliability.
+These choices split compute and control responsibilities so vision processing never blocks critical motor/sensor loops — a design decision that improved reliability during multi-run testing.
 
 ---
 
-###  Software & Algorithms
+### Hardware and Sensors
 
-The software stack, primarily in Python and C++, is organized for modularity and easy updates.
+RT-X7’s perception and navigation rely on a carefully chosen and integrated sensor suite:
 
-* **Vision & Perception:** We use **OpenCV** on the Raspberry Pi for the core vision pipeline, handling line and cube detection.
-* **Motor Control:** The ESP32 executes low-latency PWM loops for motor and steering control based on commands from the Raspberry Pi.
-* **Core Algorithms:**
-    * **Line Following:** A PID-style control system provides smooth, continuous tracking.
-    * **Cube Detection:** Real-time object detection and distance estimation for task logic.
-    * **Parallel Parking:** A calibrated sequence of forward and backward maneuvers based on dynamic clearance detection.
+* **Camera:** A **USB webcam** (upgraded from the Pi Camera) provides a higher resolution feed with a wider field of view. The webcam is mounted with an adjustable bracket for quick tuning of angle and height during testing.
+* **Ultrasonic Sensing:** Ultrasonic sensors are mounted around the vehicle to cover the front and sides. On power-up, RT-X7 performs a 1-second calibration that averages sensor readings to reduce noise and obtain a reliable baseline. This improves obstacle detection and parking decisions.
+* **Storage & Data:** A **256 GB SD card** hosts the OS, runtime logs, and trained models — ensuring adequate space for data collection, model updates, and long test sessions.
 
----
-
-###  AI & Training
-
-Our steering and perception models were developed using a data-driven, iterative process.
-
-* **Data Collection:** We recorded manual driving sessions on our test track to create a dataset of camera frames paired with steering commands.
-* **Training:** A **Convolutional Neural Network (CNN)** was trained in **TensorFlow** to map image input directly to steering commands.
-* **Iterative Refinement:** We followed a cycle of `collect → train → evaluate → repeat` to continuously improve model performance with targeted data.
+All electrical wiring, connectors, and mounts were arranged to minimize vibration and electromagnetic interference, improving sensor reliability during runs.
 
 ---
 
-###  Key Improvements & Challenges
+### Software and Algorithms
 
-Our final design is the result of multiple iterations and key upgrades.
+The RT-X7 software stack is written primarily in **Python** and uses **OpenCV** for vision processing. The code is stored on the Raspberry Pi’s SD card and organized so modules can be updated independently.
 
-* **USB Webcam Upgrade:** Switching from the Pi Camera to a USB webcam significantly improved image quality and field of view, making cube recognition more robust.
-* **Split Compute/Control:** Our biggest challenge was motor inconsistency under heavy camera processing loads. We solved this by separating the tasks: the Raspberry Pi handles complex vision, while the ESP32 manages critical, low-latency motor control. This design decision completely eliminated the issue and was vital to our success.
+**Core software components and responsibilities:**
+
+* **Vision & Perception:** An OpenCV-based pipeline handles cube recognition and line detection.
+* **Motor Control & Sensing:** The ESP32 runs low-latency loops to read ultrasonic sensors and command motors via PWM, while the Raspberry Pi sends high-level movement decisions.
+* **Algorithms:**
+    * **Line Following:** Continuous lane detection and PID-style steering adjustments for smooth tracking.
+    * **Cube Detection + Distance Estimation:** Real-time identification of red/green cubes and approximate distance calculation for task logic.
+    * **Adaptive Speed:** Speed and steering parameters adapt dynamically based on line curvature and obstacle proximity.
+    * **Parallel Parking:** A calibrated sequence of backward/forward maneuvers; the exit direction is chosen dynamically depending on which side presents sufficient clearance.
+    * **Startup Calibration:** On boot, RT-X7 performs calibration of ultrasonic sensors (1-second averaging) and zeroes motor controllers to reduce variability between runs.
 
 ---
 
-###  Conclusion
+### AI Training Process
 
-RT-X7 is a culmination of our team's work in embedded systems, computer vision, and collaborative problem-solving. By focusing on a stable architecture and iterative refinement, our RoboCar reliably executes all tasks for the WRO 2025 Future Engineering Challenge. We are proud of this project and the valuable lessons it has taught us.
+Our perception and steering policies were developed with a data-driven approach:
+
+* **Data Collection:** Manual driving sessions on test tracks were recorded to capture camera frames paired with steering/throttle commands and timestamps. This dataset forms the basis for supervised learning.
+* **Transfer & Training:** Data was transferred from the Pi to development machines (e.g., via SFTP). A **Convolutional Neural Network (CNN)**, trained in **TensorFlow**, maps image input to steering/throttle in a regression setting.
+* **Iterative Improvement:** Models were iteratively improved: collect → train → evaluate → adjust data/augmentation → repeat. Each training iteration was validated on the car and further refined with targeted data (sharp turns, obstacle approaches, low light).
+* **Deployment:** Trained models are uploaded back to the Raspberry Pi and executed within the main control scripts for freerun and obstacle tasks.
+
+---
+
+### Power and Thermal Management
+
+Reliable power and sensible energy distribution were vital for repeatable performance:
+
+* **Motor Power:** A dedicated battery pack powers the motors, ensuring consistent torque and speed.
+* **Electronics Power:** A separate regulated supply (via buck converters) provides stable 5 V to the Raspberry Pi and sensors.
+* **PWM Control:** PWM is used for both throttle and steering control to tune responsiveness and conserve power during runs.
+* **Thermal Management:** Cooling measures (fan/heatsinks) keep the Raspberry Pi within safe operating temperatures during long sessions.
+
+---
+
+### Iterative Improvements
+
+RT-X7’s final form was achieved through iterative testing and targeted improvements:
+
+* **Camera Upgrade:** We transitioned from the Pi Camera to a USB webcam for improved resolution and field of view, which significantly improved cube recognition and line detection robustness.
+* **Storage Upgrade:** We moved to a 256 GB SD card to prevent I/O bottlenecks and support extensive data logging and model storage.
+* **Sensor Calibration:** We implemented a startup calibration (1-second averaging) for ultrasonic sensors to reduce noise and improve repeatability.
+* **Major Technical Challenge & Solution:** The single biggest challenge was inconsistent motor performance when the camera and other high-load processes were running. The motors would occasionally stutter or stop entirely. We solved this by implementing a split compute/control architecture. By offloading real-time motor and sensor control to a dedicated ESP32, we ensured that even under heavy vision processing loads on the Raspberry Pi, the motor commands were executed with consistent, low latency. This design decision completely eliminated the issue and significantly improved the car's overall reliability.
+
+---
+
+### Conclusion
+
+RT-X7 embodies our team’s engineering approach to the WRO Future Engineering Challenge 2025: purposeful hardware choices, a split compute/control architecture, and iterative software refinement. By focusing on stability, sensor fusion, and repeatable calibration, RT-X7 performs line following, cube detection, obstacle avoidance, and parallel parking reliably under competition conditions.
+
+This project taught Team Red Torque valuable lessons in embedded systems, computer vision, sensor integration, and collaborative problem-solving. We are proud to submit RT-X7 as our competition-ready entry for WRO 2025 and invite judges and teams to view our implementation and test results.
